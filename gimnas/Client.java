@@ -598,70 +598,58 @@ public class Client {
         }
     }
 
+    
+    public void modificaClient() throws SQLException {
+        Connexio con = new Connexio();
+        Connection conexio = con.connectarBD();
 
-    // public void modificarClient() throws SQLException {
-    //     Connexio con = new Connexio();
-    //     Connection conexio = con.connectarBD();
+        Scanner teclat = new Scanner(System.in);
+        System.out.println("*MODIFICAR CLIENT*");
 
-    //     Scanner teclat = new Scanner(System.in);
-    //     System.out.println("__________________________________________");
-    //     System.out.println(" MODIFICAR DADES CLIENT \n");
+        System.out.println("DNI del client a modificar: ");
+        String dni = teclat.next();
 
-    //     System.out.println("\nIntrodueixi el DNI del client a modificar");
-    //     String dni = teclat.next();
+        System.out.println("\nIntrodueixi la comunicació comercial(SI, NO): ");
+        this.comunicaciocomercial = teclat.next();
 
-    //     Client cl1 = consultaClientBD(dni);
+        System.out.println("\nIntrodueixi la condició física: ");
+        this.condicioFisica = teclat.next();
 
-    //     if (cl1 == null) {
-    //         System.out.println("\n*ERROR: El client amb dni: " + dni + " no existeix a la base de dades.");
-    //     } else {
+        Telefon telefon = new Telefon();
+        do {
+            System.out.println("\nIntrodueixi el numero de telèfon");
+        } while (!telefon.setTelefon(teclat.next()));
+        setTelefon(telefon);
 
-    //         Telefon telefon = new Telefon();
-    //         do {
-    //             System.out.println("\nIntrodueixi el nou numero de telèfon");
-    //         } while (!telefon.setTelefon(teclat.next()));
-    //         setTelefon(telefon);
+        CorreuElectronic email = new CorreuElectronic();
+        do {
+            System.out.println("\nIntrodueixi el correu electrònic");
+        } while (!email.setEmail(teclat.next()));
+        setEmail(email);
 
-    //         CorreuElectronic email = new CorreuElectronic();
-    //         do {
-    //             System.out.println("\nIntrodueixi el nou correu electrònic");
-    //         } while (!email.setEmail(teclat.next()));
-    //         setEmail(email);
+        String modifica = "UPDATE Clients SET comunicaciocomercial = ?, condiciofisica= ?, telefon = ?, email = ? WHERE dni = ?";
+        PreparedStatement sentencia = null;
 
-    //         CompteBancari CCC = new CompteBancari();
-    //         do {
-    //             System.out.println("\nIntrodueixi el nou compte bancari");
-    //         } while (!CCC.setCCC(teclat.next()));
-    //         setCCC(CCC);
-
-    //         System.out.println("\nIntrodueixi la condició física: ");
-    //         String condicioFisica = teclat.next();
-
-    //         System.out.println("\nIntrodueixi si vol comunicació comercial (SI, NO): ");
-    //         String comunicaciocomercial = teclat.next();
-
-    //         String modifica = "UPDATE Clients SET WHERE dni = ?";
-    //         PreparedStatement sentencia = null;
-
-    //         try {
-    //             sentencia = conexio.prepareStatement(modifica);
-    //             sentencia.setString(3, this.dni);
-    //             sentencia.setString(1, this.telefon.setTelefon());
-    //             sentencia.setString(2, condiciofisica);
-    //             sentencia.executeUpdate();
-    //             System.out.println("\nS'han modificat correctament les dades del client amb DNI: " + dni);
-    //         } catch (SQLException sqle) {
-    //             sqle.printStackTrace();
-    //             System.out.println("\n*Hi ha hagut un error al modificar les dades del client: " + dni);
-    //         } finally {
-    //             if (sentencia != null)
-    //                 try {
-    //                     sentencia.close();
-    //                 } catch (SQLException sqle) {
-    //                     sqle.printStackTrace();
-    //                 }
-    //         }
-    //     }
-    // }
+        try {
+            sentencia = conexio.prepareStatement(modifica);
+            sentencia.setString(5, dni);
+            sentencia.setString(1, this.comunicaciocomercial);
+            sentencia.setString(2, this.condicioFisica);
+            sentencia.setString(3, this.telefon.getTelefon());
+            sentencia.setString(4, this.email.getEmail());
+            sentencia.executeUpdate();
+            System.out.println("Client modificat: " + dni);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("*Hi ha hagut un error en modificar el client amb dni: " + dni);
+        } finally {
+            if (sentencia != null)
+                try {
+                    sentencia.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+        }
+    }
 
 }
