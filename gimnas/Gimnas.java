@@ -88,7 +88,7 @@ public class Gimnas {
                     c.altaClient();
                     break;
                 case 4:
-                    // c.modificarClient();
+                    c.modificarClient();
                     break;
                 case 5:
                     c.baixaClient();

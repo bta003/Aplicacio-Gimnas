@@ -135,7 +135,7 @@ public class Client {
         Client cl1 = consultaClientBD(dni);
 
         if (cl1 == null) {
-            System.out.println("\n*ERROR: El client amb dni: " + dni + " no existeix a la base de dades.");
+            // System.out.println("\n*ERROR: El client amb dni: " + dni + " no existeix a la base de dades.");
         } else {
             System.out.println(cl1);
         }
@@ -599,7 +599,7 @@ public class Client {
     }
 
     
-    public void modificaClient() throws SQLException {
+    public void modificarClient() throws SQLException {
         Connexio con = new Connexio();
         Connection conexio = con.connectarBD();
 
