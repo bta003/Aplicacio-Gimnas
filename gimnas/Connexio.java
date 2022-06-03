@@ -14,7 +14,7 @@ public class Connexio {
         String servidor = "jdbc:mysql://localhost:3306/";
         String bbdd = "gimnas";
         String user = "root";
-        String password = "";
+        String password = "Fat/3232";
         try {
             connexioBD = DriverManager.getConnection(servidor + bbdd, user, password);
             return connexioBD;
